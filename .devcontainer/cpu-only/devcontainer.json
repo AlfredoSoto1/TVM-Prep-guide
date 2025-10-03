@@ -1,0 +1,27 @@
+{
+  "name": "Python + Apache TVM (CPU)",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {}
+  },
+  "postCreateCommand": "python -m pip install --upgrade pip && pip install \"numpy<2.0\" apache-tvm jupyter pillow pytest",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      }
+    }
+  },
+  "remoteUser": "vscode"
+  // "remoteUser": "vscode",
+  // "hostRequirements": {
+  //   "cpus": 2,
+  //   "memory": "4gb"
+  // }
+}
