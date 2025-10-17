@@ -193,10 +193,7 @@ Example (basic AutoScheduler):
 from tvm import auto_scheduler
 ```
 
-See the official tutorial:
-[TVM AutoScheduler Tutorial](https://tvm.apache.org/docs/tutorial/autotvm_relay_x86.html)
 
----
 
 ## Summary
 
