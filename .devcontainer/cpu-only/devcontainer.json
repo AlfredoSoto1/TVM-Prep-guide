@@ -1,9 +1,19 @@
 {
-  "name": "Python + Apache TVM (CPU)",
-  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "name": "(CPU) TVM Dev Container",
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": "."
+  },
   "features": {
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/common-utils:2": {}
+    "ghcr.io/devcontainers/features/git:1": {}
+    // "ghcr.io/devcontainers/features/common-utils:2": {},
+    // "ghcr.io/devcontainers/features/gcc:1": {},
+    // "ghcr.io/devcontainers/features/cmake:1": {
+    //   "version": "latest"
+    // },
+    // "ghcr.io/devcontainers/features/ninja:1": {}
+    // If you prefer Clang/LLVM too, uncomment:
+    // "ghcr.io/devcontainers/features/llvm:1": { "version": "16" }
   },
   "postCreateCommand": "python -m pip install --upgrade pip && pip install \"numpy<2.0\" apache-tvm jupyter pillow pytest",
   "customizations": {
@@ -11,15 +21,19 @@
       "extensions": [
         "ms-python.python",
         "ms-toolsai.jupyter",
-        "ms-python.vscode-pylance"
+        "ms-python.vscode-pylance",
+        "ms-vscode.cpptools", // C/C++ IntelliSense & debugger
+        "ms-vscode.cmake-tools", // CMake integration
+        "twxs.cmake" // CMake syntax highlighting
       ],
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python"
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "cmake.generator": "Ninja",
+        "cmake.configureOnOpen": true
       }
     }
   },
   "remoteUser": "vscode"
-  // "remoteUser": "vscode",
   // "hostRequirements": {
   //   "cpus": 2,
   //   "memory": "4gb"
