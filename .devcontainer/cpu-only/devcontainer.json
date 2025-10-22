@@ -4,6 +4,10 @@
     "dockerfile": "./Dockerfile",
     "context": "."
   },
+  "workspaceFolder": "/workspace",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
     // "ghcr.io/devcontainers/features/common-utils:2": {},
@@ -15,7 +19,6 @@
     // If you prefer Clang/LLVM too, uncomment:
     // "ghcr.io/devcontainers/features/llvm:1": { "version": "16" }
   },
-  "postCreateCommand": "python -m pip install --upgrade pip && pip install \"numpy<2.0\" apache-tvm jupyter pillow pytest",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -33,6 +36,7 @@
       }
     }
   },
+  "postCreateCommand": "bash -lc 'python -m pip install --upgrade pip && pip install -r ${containerWorkspaceFolder}/requirements.txt'",
   "remoteUser": "vscode"
   // "hostRequirements": {
   //   "cpus": 2,
