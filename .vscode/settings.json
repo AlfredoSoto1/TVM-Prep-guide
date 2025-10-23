@@ -1,0 +1,5 @@
+// .vscode/settings.json
+{
+  "dev.containers.copyGitConfig": true,
+  "dev.containers.gitCredentialHelper": "none"
+}

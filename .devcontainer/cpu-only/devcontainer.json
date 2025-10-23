@@ -4,12 +4,18 @@
     "dockerfile": "./Dockerfile",
     "context": "."
   },
-  "workspaceFolder": "/workspace",
-  "mounts": [
-    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
-  ],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  // "mounts": [
+  //   // ----- Windows (uncomment on Windows) -----
+  //   "source=${localEnv:USERPROFILE}\\.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
+  //   "source=${localEnv:USERPROFILE}\\.git-credentials,target=/home/vscode/.git-credentials,type=bind,consistency=cached"
+  //   // ----- macOS/Linux (uncomment on macOS/Linux) -----
+  //   // "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
+  //   // "source=${localEnv:HOME}/.git-credentials,target=/home/vscode/.git-credentials,type=bind,consistency=cached"
+  // ],
   "features": {
-    "ghcr.io/devcontainers/features/git:1": {}
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
     // "ghcr.io/devcontainers/features/common-utils:2": {},
     // "ghcr.io/devcontainers/features/gcc:1": {},
     // "ghcr.io/devcontainers/features/cmake:1": {
