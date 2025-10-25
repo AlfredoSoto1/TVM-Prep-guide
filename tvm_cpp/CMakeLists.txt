@@ -1,37 +1,28 @@
-cmake_minimum_required(VERSION 3.10)
-project(TVM_ONNX_CPP_Example CXX)
-
+cmake_minimum_required(VERSION 3.16)
+project(tvm_min_runner CXX)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Set the path to your TVM installation
-# You might need to adjust this depending on where you built/installed TVM
-set(TVM_ROOT /path/to/your/tvm) # e.g., /home/user/tvm
+# Set these or pass with -DTVM_HOME=... -DTVM_BUILD=...
+set(TVM_HOME "/workspaces/TVM-Prep-guide/tvm" CACHE PATH "Path to TVM source root")
+set(TVM_BUILD "/workspaces/TVM-Prep-guide/tvm/build" CACHE PATH "Path to TVM build dir")
 
-# Add TVM include directories
-include_directories(
-    ${TVM_ROOT}/include
-    ${TVM_ROOT}/3rdparty/dlpack/include
-    ${TVM_ROOT}/3rdparty/dmlc-core/include
+add_executable(run_min run_resnet.cpp)
+
+target_include_directories(run_min PRIVATE
+  ${TVM_HOME}/include
+  ${TVM_HOME}/3rdparty/dlpack/include
+  ${TVM_HOME}/3rdparty/dmlc-core/include
 )
 
-# Find TVM runtime library
-find_library(TVM_RUNTIME_LIBRARY
-    NAMES tvm_runtime
-    PATHS ${TVM_ROOT}/build/
-          ${TVM_ROOT}/build/lib/ # Common path for built libraries
-          /usr/local/lib
-          /usr/lib
+target_link_directories(run_min PRIVATE
+  ${TVM_BUILD}
 )
 
-if(NOT TVM_RUNTIME_LIBRARY)
-    message(FATAL_ERROR "Could not find TVM runtime library. Please set TVM_ROOT correctly.")
+target_link_libraries(run_min PRIVATE tvm_runtime)
+
+# Make the runtime .so discoverable when you run from the build tree
+if(UNIX AND NOT APPLE)
+  set_target_properties(run_min PROPERTIES
+    BUILD_RPATH "${TVM_BUILD}"
+    INSTALL_RPATH "${TVM_BUILD}")
 endif()
-
-add_executable(tvm_onnx_example main.cpp)
-target_link_libraries(tvm_onnx_example PUBLIC ${TVM_RUNTIME_LIBRARY})
-
-# If using GPU/Vulkan, you might need to link against those as well
-# For example, for Vulkan:
-# find_package(Vulkan REQUIRED)
-# target_link_libraries(tvm_onnx_example PUBLIC Vulkan::Vulkan)
