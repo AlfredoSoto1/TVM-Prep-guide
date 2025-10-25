@@ -1,6 +1,22 @@
 build/
 
 tvm/
+tvm_out/
+.pkl_memoize_py3/
+
+notebooks/*.json
+notebooks/*.params
+notebooks/*.so
+notebooks/*.txt
+
+artifacts/*.json
+artifacts/*.params
+artifacts/*.so
+artifacts/*.txt
+
+ignored/
 
 *.onnx
 *.onnx.data
+
+*.so
