@@ -9,10 +9,10 @@ notebooks/*.params
 notebooks/*.so
 notebooks/*.txt
 
-artifacts/*.json
-artifacts/*.params
-artifacts/*.so
-artifacts/*.txt
+**/artifacts/*.json
+**/artifacts/*.params
+**/artifacts/*.so
+**/artifacts/*.txt
 
 ignored/
 
