@@ -1,5 +1,6 @@
 // .vscode/settings.json
 {
   "dev.containers.copyGitConfig": true,
-  "dev.containers.gitCredentialHelper": "none"
+  "dev.containers.gitCredentialHelper": "none",
+  "cmake.sourceDirectory": "/workspaces/TVM-Prep-guide/tvm_cpp"
 }
