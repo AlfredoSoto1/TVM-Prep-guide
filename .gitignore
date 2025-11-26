@@ -13,9 +13,9 @@ artifacts/*.json
 artifacts/*.params
 artifacts/*.so
 artifacts/*.txt
+tvm_cpp/artifacts/
 
 ignored/
-
 *.onnx
 *.onnx.data
 
