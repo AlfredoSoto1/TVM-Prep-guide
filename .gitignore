@@ -9,13 +9,13 @@ notebooks/*.params
 notebooks/*.so
 notebooks/*.txt
 
-**/artifacts/*.json
-**/artifacts/*.params
-**/artifacts/*.so
-**/artifacts/*.txt
+artifacts/*.json
+artifacts/*.params
+artifacts/*.so
+artifacts/*.txt
+tvm_cpp/artifacts/
 
 ignored/
-
 *.onnx
 *.onnx.data
 
