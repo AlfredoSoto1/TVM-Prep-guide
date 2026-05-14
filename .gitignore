@@ -20,3 +20,4 @@ ignored/
 *.onnx.data
 
 *.so
+.venv/
