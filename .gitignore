@@ -1,4 +1,6 @@
 build/
+__pycache__/
+*.py[cod]
 
 tvm/
 tvm_out/
@@ -14,6 +16,14 @@ artifacts/*.params
 artifacts/*.so
 artifacts/*.txt
 tvm_cpp/artifacts/
+examples/artifacts/**
+!examples/artifacts/.gitkeep
+examples/**/*.onnx
+examples/**/*.so
+examples/**/*.params
+examples/**/*.tar
+examples/**/model.json
+examples/**/metadata.json
 
 ignored/
 *.onnx

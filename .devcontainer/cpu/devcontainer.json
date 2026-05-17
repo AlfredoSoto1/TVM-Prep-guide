@@ -1,0 +1,40 @@
+{
+  "name": "TVM Prep Guide CPU",
+  "build": {
+    "context": "..",
+    "dockerfile": "Dockerfile",
+    "args": {
+      "TVM_VERSION": "v0.19.0"
+    }
+  },
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "cmake.generator": "Ninja",
+        "cmake.configureOnOpen": false
+      }
+    }
+  },
+  "containerEnv": {
+    "TVM_HOME": "/opt/tvm",
+    "TVM_BUILD": "/opt/tvm/build",
+    "PYTHONPATH": "/opt/tvm/python:${containerEnv:PYTHONPATH}",
+    "LD_LIBRARY_PATH": "/opt/tvm/build:${containerEnv:LD_LIBRARY_PATH}"
+  },
+  "postCreateCommand": "bash .devcontainer/scripts/install-python-deps.sh requirements.txt",
+  "remoteUser": "vscode"
+}
