@@ -6,19 +6,19 @@ The repository provides two VS Code devcontainers.
 
 Use `.devcontainer/cpu/devcontainer.json` by default. It is the portable setup for Windows, macOS, and Linux hosts.
 
-It installs:
+It installs the baseline operating-system tools:
 
-- Python 3.11 and Jupyter.
-- PyTorch, TensorFlow, ONNX, TFLite helpers, Pillow, NumPy, and test tools.
+- Python.
 - LLVM/Clang, CMake, Ninja, and native build tools.
 - ARMv7 and AArch64 Linux cross-compilers.
 - Emscripten/WebAssembly tools.
 - Vulkan headers/tools.
-- Apache TVM built from source at `v0.19.0`.
+
+It does not install the heavy Python framework dependencies or build Apache TVM during image creation.
 
 ## GPU Container
 
-Use `.devcontainer/gpu/devcontainer.json` only on hosts with the NVIDIA Container Toolkit configured. It starts from an NVIDIA CUDA development image and builds TVM with CUDA and Vulkan support.
+Use `.devcontainer/gpu/devcontainer.json` only on hosts with the NVIDIA Container Toolkit configured. It starts from an NVIDIA CUDA development image and includes the native build tools needed to build TVM with CUDA and Vulkan support after the container is running.
 
 CUDA model compilation is not the focus of this guide. Prefer the `vulkan` target profile for GPU-style examples when the host supports Vulkan.
 
@@ -30,4 +30,26 @@ CUDA model compilation is not the focus of this guide. Prefer the `vulkan` targe
 4. Run `Dev Containers: Reopen in Container`.
 5. Select `TVM Prep Guide CPU` unless you specifically need the GPU image.
 
-The devcontainer build is intentionally heavy because it builds TVM from source. Do not also install `apache-tvm` from pip inside the container; the source build must match the C++ runtime libraries.
+The container should open before any heavy software build or framework install starts.
+
+## Manual Setup Inside The Container
+
+After VS Code is connected to the running devcontainer, install Python dependencies only when you need the notebooks and examples:
+
+```bash
+bash .devcontainer/scripts/install-python-deps.sh requirements.txt
+```
+
+Build TVM from source only when you are ready for the full TVM toolchain:
+
+```bash
+bash .devcontainer/scripts/build-tvm.sh
+```
+
+The CPU container defaults to `TVM_USE_VULKAN=OFF` to keep the first build path conservative. If you specifically need Vulkan support, run:
+
+```bash
+TVM_USE_VULKAN=ON bash .devcontainer/scripts/build-tvm.sh
+```
+
+Do not also install `apache-tvm` from pip inside the container; the source build must match the C++ runtime libraries.

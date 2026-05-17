@@ -39,6 +39,5 @@
     "PYTHONPATH": "/opt/tvm/python:${containerEnv:PYTHONPATH}",
     "LD_LIBRARY_PATH": "/opt/tvm/build:${containerEnv:LD_LIBRARY_PATH}"
   },
-  "postCreateCommand": "bash .devcontainer/scripts/install-python-deps.sh requirements.txt",
   "remoteUser": "vscode"
 }

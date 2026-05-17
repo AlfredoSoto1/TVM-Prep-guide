@@ -5,7 +5,7 @@ TVM_VERSION="${TVM_VERSION:-v0.19.0}"
 TVM_HOME="${TVM_HOME:-/opt/tvm}"
 TVM_BUILD="${TVM_BUILD:-${TVM_HOME}/build}"
 TVM_USE_CUDA="${TVM_USE_CUDA:-OFF}"
-TVM_USE_VULKAN="${TVM_USE_VULKAN:-ON}"
+TVM_USE_VULKAN="${TVM_USE_VULKAN:-OFF}"
 LLVM_CONFIG="${LLVM_CONFIG:-/usr/bin/llvm-config-16}"
 
 if [ ! -d "${TVM_HOME}/.git" ]; then

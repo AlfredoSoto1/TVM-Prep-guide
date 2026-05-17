@@ -9,10 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TVM_HOME=${TVM_HOME} \
     TVM_BUILD=${TVM_BUILD} \
     TVM_USE_CUDA=OFF \
-    TVM_USE_VULKAN=ON \
-    LLVM_CONFIG=/usr/bin/llvm-config-16 \
-    PYTHONPATH=${TVM_HOME}/python:${PYTHONPATH} \
-    LD_LIBRARY_PATH=${TVM_BUILD}:${LD_LIBRARY_PATH}
+    TVM_USE_VULKAN=OFF \
+    LLVM_CONFIG=/usr/bin/llvm-config-16
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -43,5 +41,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     glslang-tools \
     && rm -rf /var/lib/apt/lists/*
 
-COPY scripts/build-tvm.sh /tmp/build-tvm.sh
-RUN bash /tmp/build-tvm.sh && rm /tmp/build-tvm.sh
+RUN mkdir -p "${TVM_HOME}" "${TVM_BUILD}" \
+    && chown -R vscode:vscode "${TVM_HOME}"

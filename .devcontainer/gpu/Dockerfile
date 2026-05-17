@@ -13,9 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     TVM_BUILD=${TVM_BUILD} \
     TVM_USE_CUDA=ON \
     TVM_USE_VULKAN=ON \
-    LLVM_CONFIG=/usr/bin/llvm-config-14 \
-    PYTHONPATH=${TVM_HOME}/python:${PYTHONPATH} \
-    LD_LIBRARY_PATH=${TVM_BUILD}:${LD_LIBRARY_PATH}
+    LLVM_CONFIG=/usr/bin/llvm-config-14
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -54,10 +52,9 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} \
     && useradd -s /bin/bash --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} \
     && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
     && chmod 0440 /etc/sudoers.d/${USERNAME} \
-    && ln -sf /usr/bin/python3 /usr/local/bin/python
-
-COPY scripts/build-tvm.sh /tmp/build-tvm.sh
-RUN bash /tmp/build-tvm.sh && rm /tmp/build-tvm.sh
+    && ln -sf /usr/bin/python3 /usr/local/bin/python \
+    && mkdir -p "${TVM_HOME}" "${TVM_BUILD}" \
+    && chown -R "${USERNAME}:${USERNAME}" "${TVM_HOME}"
 
 USER ${USERNAME}
 WORKDIR /workspaces

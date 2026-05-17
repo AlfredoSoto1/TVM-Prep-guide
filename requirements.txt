@@ -1,6 +1,7 @@
 # Core Python dependencies for notebooks and examples.
-# Apache TVM itself is built from source in the devcontainers and installed
-# from /opt/tvm/python so the Python package matches the C++ runtime.
+# Install these manually after the devcontainer is running:
+# bash .devcontainer/scripts/install-python-deps.sh requirements.txt
+# Apache TVM is intentionally installed separately from /opt/tvm/python.
 numpy<2.0
 torch>=2.3.0
 torchvision>=0.18.0
