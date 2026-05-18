@@ -46,6 +46,8 @@ Build TVM from source only when you are ready for the full TVM toolchain:
 bash .devcontainer/scripts/build-tvm.sh
 ```
 
+After both scripts finish, open `notebooks/00_tvm_prep_guide.ipynb` and run it top to bottom. It is the first-pass validation for Python dependencies, TVM, target profiles, artifact export, and the Python graph executor.
+
 The CPU container defaults to `TVM_USE_VULKAN=OFF` to keep the first build path conservative. If you specifically need Vulkan support, run:
 
 ```bash

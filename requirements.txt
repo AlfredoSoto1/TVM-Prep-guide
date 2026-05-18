@@ -2,18 +2,20 @@
 # Install these manually after the devcontainer is running:
 # bash .devcontainer/scripts/install-python-deps.sh requirements.txt
 # Apache TVM is intentionally installed separately from /opt/tvm/python.
-numpy<2.0
-torch>=2.3.0
-torchvision>=0.18.0
-tensorflow>=2.16.0
-tflite
-onnx>=1.16.0
-onnxoptimizer
-onnxruntime>=1.18.0
-onnxsim>=0.4.36
-onnxscript>=0.1.0
-pillow>=10.0.0
-jupyter
-ipykernel
-matplotlib
-pytest
+numpy==1.26.4
+cloudpickle==3.1.2
+scipy==1.17.1
+torch==2.3.1
+torchvision==0.18.1
+tensorflow==2.16.2
+tflite==2.18.0
+onnx==1.16.2
+onnxoptimizer==0.3.13
+onnxruntime==1.18.1
+onnxsim==0.4.36
+onnxscript==0.1.0
+pillow==10.4.0
+jupyter==1.0.0
+ipykernel==6.29.5
+matplotlib==3.9.2
+pytest==8.3.2

@@ -2,11 +2,11 @@
 
 This repository is a practical guide for loading AI models, importing them into Apache TVM, compiling them for selectable targets, and validating the exported artifacts with Python or C++ runtimes.
 
-The primary workflow is now organized around:
+The repository is organized around:
 
-- `docs/`: setup, TVM build, target selection, cross-compilation, and deployment documentation.
-- `notebooks/`: step-by-step Jupyter notebooks for the learning path.
-- `examples/`: reusable Python and C++ code used by the notebooks.
+- `docs/`: project orientation, devcontainer setup, and manual dependency installation.
+- `notebooks/00_tvm_prep_guide.ipynb`: the main guide for using TVM in this repository.
+- `examples/`: reusable Python and C++ code used by the notebook and CLI tools.
 - `tvm_cpp/`: legacy working C++ runner and sample images kept for reference.
 
 ## Start Here
@@ -14,40 +14,14 @@ The primary workflow is now organized around:
 1. Open the repository in VS Code.
 2. Run `Dev Containers: Reopen in Container`.
 3. Select `TVM Prep Guide CPU` unless you specifically need the NVIDIA-based GPU image.
-4. Open [docs/README.md](docs/README.md) and follow the notebook sequence.
+4. Run the setup scripts from [docs/devcontainer.md](docs/devcontainer.md).
+5. Open [notebooks/00_tvm_prep_guide.ipynb](notebooks/00_tvm_prep_guide.ipynb) and run it top to bottom.
 
 The devcontainer builds Apache TVM from source at `v0.19.0`. This is slower than installing a pip wheel, but keeps the Python package, headers, and C++ runtime libraries aligned.
 
-## Quick Example
-
-Compile a PyTorch ResNet18 model for native x86_64 Linux:
-
-```bash
-python examples/python/compile_model.py \
-  --frontend pytorch \
-  --model resnet18 \
-  --target-profile x86_64
-```
-
-Run the exported artifacts with Python:
-
-```bash
-python examples/python/run_model.py \
-  --artifact-dir examples/artifacts/resnet18/x86_64 \
-  --image tvm_cpp/images/cat.png
-```
-
-Build and run the C++ graph executor example:
-
-```bash
-cmake -S examples/cpp -B examples/cpp/build -G Ninja
-cmake --build examples/cpp/build
-examples/cpp/build/run_tvm_graph \
-  --artifact-dir examples/artifacts/resnet18/x86_64 \
-  --image tvm_cpp/images/cat.png
-```
-
 ## Supported First-Pass Frontends
+
+The notebook explains how these are used.
 
 - PyTorch torchvision models.
 - TensorFlow/Keras application models.
@@ -70,4 +44,4 @@ CUDA is not expanded in the current guide. Prefer Vulkan for GPU-oriented exampl
 
 ## Legacy Material
 
-Older notebooks and `tvm_cpp/` remain in the repository because they contain working historical examples. New work should use `docs/`, `notebooks/00_*` through `05_*`, and `examples/`.
+The old exploratory notebooks have been removed. `tvm_cpp/` remains because it contains older C++ material and sample images that are still useful as references. New work should use `docs/`, `notebooks/00_tvm_prep_guide.ipynb`, and `examples/`.
