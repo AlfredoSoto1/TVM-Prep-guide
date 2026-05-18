@@ -42,6 +42,18 @@ Target profiles are defined in `examples/python/tvm_prep/targets.py`.
 
 CUDA is not expanded in the current guide. Prefer Vulkan for GPU-oriented examples where possible.
 
+## Validation
+
+Run the main notebook for the guided workflow. Run the validation notebook for automated compile/runtime checks:
+
+```bash
+jupyter nbconvert --to notebook --execute notebooks/01_compile_runtime_tests.ipynb \
+  --output /tmp/01_compile_runtime_tests.executed.ipynb \
+  --ExecutePreprocessor.timeout=900
+```
+
+The validation notebook compiles a small deterministic vision model for `x86_64` from PyTorch and ONNX, runs the artifacts with TVM's Python graph executor, builds the C++ graph runner, and runs the ONNX artifacts from C++.
+
 ## Legacy Material
 
 The old exploratory notebooks have been removed. `tvm_cpp/` remains because it contains older C++ material and sample images that are still useful as references. New work should use `docs/`, `notebooks/00_tvm_prep_guide.ipynb`, and `examples/`.

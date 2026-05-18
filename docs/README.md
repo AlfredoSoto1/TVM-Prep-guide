@@ -20,6 +20,14 @@ bash .devcontainer/scripts/build-tvm.sh
 
 5. Open `notebooks/00_tvm_prep_guide.ipynb` and run it top to bottom.
 
+To run the automated validation notebook:
+
+```bash
+jupyter nbconvert --to notebook --execute notebooks/01_compile_runtime_tests.ipynb \
+  --output /tmp/01_compile_runtime_tests.executed.ipynb \
+  --ExecutePreprocessor.timeout=900
+```
+
 ## Repository Layout
 
 - `docs/`: setup and project-orientation notes.
