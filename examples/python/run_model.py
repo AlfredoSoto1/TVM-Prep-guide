@@ -14,6 +14,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--labels")
     parser.add_argument("--layout", choices=["NCHW", "NHWC"], default=None)
     parser.add_argument("--no-normalize", action="store_true")
+    parser.add_argument("--topk", type=int, default=5)
     return parser.parse_args()
 
 
@@ -28,7 +29,7 @@ def main() -> None:
     labels_path = Path(args.labels) if args.labels else artifact_dir / metadata.get("labels", "labels.txt")
     labels = labels_path.read_text(encoding="utf-8").splitlines() if labels_path.exists() else None
 
-    for rank, (idx, prob, label) in enumerate(topk(output, labels), start=1):
+    for rank, (idx, prob, label) in enumerate(topk(output, labels, k=args.topk), start=1):
         print(f"{rank}: id={idx} p={prob:.6f} {label}")
 
 

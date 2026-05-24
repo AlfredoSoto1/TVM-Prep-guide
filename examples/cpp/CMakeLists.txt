@@ -20,7 +20,7 @@ target_include_directories(run_tvm_graph PRIVATE
   ${TVM_HOME}/include
   ${TVM_HOME}/3rdparty/dlpack/include
   ${TVM_HOME}/3rdparty/dmlc-core/include
-  ${CMAKE_CURRENT_LIST_DIR}/../..
+  ${CMAKE_CURRENT_LIST_DIR}
 )
 
 target_link_directories(run_tvm_graph PRIVATE ${TVM_BUILD})

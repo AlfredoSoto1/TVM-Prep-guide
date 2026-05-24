@@ -1,13 +1,15 @@
 # TVM Prep Guide
 
-This repository is a practical guide for loading AI models, importing them into Apache TVM, compiling them for selectable targets, and validating the exported artifacts with Python or C++ runtimes.
+This repository is a practical guide for loading AI models, importing them into Apache TVM, compiling them for selectable architectures, and running the exported artifacts with Python or C++ runtimes.
 
 The repository is organized around:
 
 - `docs/`: project orientation, devcontainer setup, and manual dependency installation.
-- `notebooks/00_tvm_prep_guide.ipynb`: the main guide for using TVM in this repository.
-- `examples/`: reusable Python and C++ code used by the notebook and CLI tools.
-- `tvm_cpp/`: legacy working C++ runner and sample images kept for reference.
+- `notebooks/00_tvm_prep_guide.ipynb`: the main TVM preparation guide.
+- `notebooks/02_adding_models_and_raspberry_pi.ipynb`: adding models and deploying to Raspberry Pi.
+- `compilation/`: flat TVM compilation scripts and target profiles.
+- `examples/`: Python and C++ runtime examples plus generated artifacts.
+- `tvm_cpp/`: legacy C++ material kept for reference.
 
 ## Start Here
 
@@ -17,7 +19,6 @@ The repository is organized around:
 4. Run the setup scripts from [docs/devcontainer.md](docs/devcontainer.md).
 5. Open [notebooks/00_tvm_prep_guide.ipynb](notebooks/00_tvm_prep_guide.ipynb) and run it top to bottom.
 6. Use [notebooks/02_adding_models_and_raspberry_pi.ipynb](notebooks/02_adding_models_and_raspberry_pi.ipynb) when you are ready to add your own models or deploy to Raspberry Pi.
-7. Use [notebooks/03_plain_tvm_api_workflow.ipynb](notebooks/03_plain_tvm_api_workflow.ipynb) when you want the same compile/export/run flow written with direct TVM APIs and no project helper abstractions.
 
 The devcontainer builds Apache TVM from source at `v0.19.0`. This is slower than installing a pip wheel, but keeps the Python package, headers, and C++ runtime libraries aligned.
 
@@ -32,7 +33,7 @@ The notebook explains how these are used.
 
 ## Supported First-Pass Targets
 
-Target profiles are defined in `examples/python/tvm_prep/targets.py`.
+Target profiles are plain dictionaries in `compilation/targets.py`.
 
 - `native`
 - `x86_64`
@@ -44,17 +45,32 @@ Target profiles are defined in `examples/python/tvm_prep/targets.py`.
 
 CUDA is not expanded in the current guide. Prefer Vulkan for GPU-oriented examples where possible.
 
-## Validation
+## Core Workflow
 
-Run the main notebook for the guided workflow. Run the validation notebook for automated compile/runtime checks:
+The repository keeps the TVM path direct:
+
+1. Select or load a model in Python, usually from a notebook or `compilation/compile.py`.
+2. Import the model into Relay with the appropriate TVM frontend.
+3. Choose a target architecture from `compilation/targets.py`.
+4. Compile and export graph-executor artifacts under `examples/artifacts/<model>/<target>/`.
+5. For C++ deployment, build the matching TVM runtime with `compilation/build_runtime.sh`; the output is `examples/artifacts/runtime/<target>/libtvm_runtime.so`.
+6. Copy the model artifact directory and runtime library to the target device, then run with either the Python or C++ example.
+
+Local Python validation example:
 
 ```bash
-jupyter nbconvert --to notebook --execute notebooks/01_compile_runtime_tests.ipynb \
-  --output /tmp/01_compile_runtime_tests.executed.ipynb \
-  --ExecutePreprocessor.timeout=900
+python compilation/compile.py --frontend pytorch --model resnet18 --target x86_64
+python examples/python/run_model.py \
+  --artifact-dir examples/artifacts/resnet18/x86_64 \
+  --image examples/assets/cat.png
 ```
 
-The validation notebook compiles a small deterministic vision model for `x86_64` from PyTorch and ONNX, runs the artifacts with TVM's Python graph executor, builds the C++ graph runner, and runs the ONNX artifacts from C++.
+Raspberry Pi AArch64 compile example:
+
+```bash
+python compilation/compile.py --frontend pytorch --model resnet18 --target raspi4_aarch64
+bash compilation/build_runtime.sh raspi4_aarch64
+```
 
 ## Adding Models And Raspberry Pi Deployment
 
@@ -68,10 +84,6 @@ Use [notebooks/02_adding_models_and_raspberry_pi.ipynb](notebooks/02_adding_mode
 - how to run artifacts on Raspberry Pi with Python
 - how to run artifacts on Raspberry Pi with C++
 
-## Plain TVM API Example
-
-Use [notebooks/03_plain_tvm_api_workflow.ipynb](notebooks/03_plain_tvm_api_workflow.ipynb) to see the workflow without `tvm_prep` helpers. It directly calls TVM APIs such as `relay.frontend.from_pytorch`, `relay.build`, `export_library`, `graph_executor.create`, and the C++ TVM runtime registry.
-
 ## Legacy Material
 
-The old exploratory notebooks have been removed. `tvm_cpp/` remains because it contains older C++ material and sample images that are still useful as references. New work should use `docs/`, `notebooks/00_tvm_prep_guide.ipynb`, and `examples/`.
+The old exploratory notebooks have been removed. `tvm_cpp/` remains only as older C++ reference material. New work should use `docs/`, the two maintained notebooks, `compilation/`, and `examples/`.

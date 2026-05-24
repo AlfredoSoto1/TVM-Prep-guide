@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Iterable, Tuple
+from typing import Iterable
 
 import numpy as np
 from PIL import Image
@@ -17,6 +17,7 @@ def load_imagenet_image(
     layout: str = "NCHW",
     normalize: bool = True,
 ) -> np.ndarray:
+    """Load an image with the preprocessing expected by ImageNet classifiers."""
     shape = tuple(input_shape)
     if layout not in {"NCHW", "NHWC"}:
         raise ValueError("layout must be NCHW or NHWC")
@@ -46,7 +47,7 @@ def _resize_shortest_side(image: Image.Image, shortest: int) -> Image.Image:
     return image.resize(new_size)
 
 
-def _center_crop(image: Image.Image, size: Tuple[int, int]) -> Image.Image:
+def _center_crop(image: Image.Image, size: tuple[int, int]) -> Image.Image:
     width, height = image.size
     crop_width, crop_height = size
     left = (width - crop_width) // 2

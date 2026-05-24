@@ -5,7 +5,7 @@
 #include <tvm/runtime/registry.h>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "tvm_cpp/stb_image.h"
+#include "stb_image.h"
 
 #include <algorithm>
 #include <cmath>

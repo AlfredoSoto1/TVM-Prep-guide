@@ -12,5 +12,5 @@ rm -rf "${USER_BASE}/share/jupyter/kernels/tvm-prep"
 python -m pip install --upgrade pip setuptools wheel -r "${REQUIREMENTS}"
 
 mkdir -p "${SITE_PACKAGES}"
-printf '%s\n' "${REPO_ROOT}/examples/python" > "${SITE_PACKAGES}/tvm-prep-guide.pth"
+printf '%s\n%s\n' "${REPO_ROOT}/examples/python" "${REPO_ROOT}/compilation" > "${SITE_PACKAGES}/tvm-prep-guide.pth"
 python -m ipykernel install --user --name tvm-prep --display-name "Python (TVM Prep)"

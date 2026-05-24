@@ -20,25 +20,41 @@ bash .devcontainer/scripts/build-tvm.sh
 
 5. Open `notebooks/00_tvm_prep_guide.ipynb` and run it top to bottom.
 6. Open `notebooks/02_adding_models_and_raspberry_pi.ipynb` when adding your own models or preparing Raspberry Pi deployment.
-7. Open `notebooks/03_plain_tvm_api_workflow.ipynb` when you want to see the same workflow using direct TVM APIs without project helper abstractions.
-
-To run the automated validation notebook:
-
-```bash
-jupyter nbconvert --to notebook --execute notebooks/01_compile_runtime_tests.ipynb \
-  --output /tmp/01_compile_runtime_tests.executed.ipynb \
-  --ExecutePreprocessor.timeout=900
-```
 
 ## Repository Layout
 
 - `docs/`: setup and project-orientation notes.
 - `notebooks/00_tvm_prep_guide.ipynb`: the maintained guide for using TVM in this repository.
 - `notebooks/02_adding_models_and_raspberry_pi.ipynb`: model onboarding, target compilation, and Raspberry Pi Python/C++ deployment notes.
-- `notebooks/03_plain_tvm_api_workflow.ipynb`: direct TVM API compile/export/run example with Python and C++ runtimes.
-- `examples/python/`: reusable model loading, compilation, target, preprocessing, and runtime helpers.
+- `compilation/`: low-abstraction TVM model compilation script, target profiles, and runtime build script.
+- `examples/python/`: Python graph-executor runtime and image preprocessing helpers.
 - `examples/cpp/`: C++ graph-executor runner for exported artifacts.
 - `examples/artifacts/`: generated model artifacts; ignored by git except `.gitkeep`.
 - `tvm_cpp/`: legacy C++ material and sample images kept for reference.
 
 Generated models, libraries, parameters, and ONNX exports should go under `examples/artifacts/` and are ignored by git.
+
+## Cross-Compilation Outputs
+
+Model compilation writes:
+
+```text
+examples/artifacts/<model>/<target>/
+  model.json
+  model.params
+  model.so
+  metadata.json
+  labels.txt        # when labels are available
+```
+
+C++ deployment also needs the target TVM runtime:
+
+```bash
+bash compilation/build_runtime.sh raspi4_aarch64
+```
+
+That writes:
+
+```text
+examples/artifacts/runtime/raspi4_aarch64/libtvm_runtime.so
+```

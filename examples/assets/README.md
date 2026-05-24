@@ -1,5 +1,6 @@
 # Assets
 
-Use this folder for small inputs that are safe to keep in git, such as label files or tiny sample data.
+Use this folder for small inputs that are safe to keep in git, such as label files and sample images.
 
-The current repository already has sample images in `tvm_cpp/images/`. The new examples can use those images directly, or copied versions can be added here later if the legacy folder is removed.
+- `cat.png`: sample image used by the Python and C++ runtime examples.
+- `imagenet_labels.txt`: ImageNet class labels for classification examples.

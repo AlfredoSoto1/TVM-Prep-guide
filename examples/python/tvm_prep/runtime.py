@@ -2,18 +2,21 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import numpy as np
 import tvm
 from tvm.contrib import graph_executor
 
 
-def load_metadata(artifact_dir: str | Path) -> Dict[str, Any]:
-    return json.loads((Path(artifact_dir) / "metadata.json").read_text(encoding="utf-8"))
+def load_metadata(artifact_dir: str | Path) -> dict[str, Any]:
+    """Read metadata written by compilation/compile.py."""
+    metadata_path = Path(artifact_dir) / "metadata.json"
+    return json.loads(metadata_path.read_text(encoding="utf-8"))
 
 
 def run_graph_executor(artifact_dir: str | Path, input_data: np.ndarray, device=None) -> np.ndarray:
+    """Load graph-executor artifacts and run one inference."""
     artifact_path = Path(artifact_dir)
     metadata = load_metadata(artifact_path)
     lib_name = metadata.get("library", "model.so")
@@ -29,6 +32,7 @@ def run_graph_executor(artifact_dir: str | Path, input_data: np.ndarray, device=
 
 
 def topk(logits: np.ndarray, labels: list[str] | None = None, k: int = 5):
+    """Return the top-k softmax probabilities from a model output tensor."""
     flat = logits.reshape(-1)
     exp = np.exp(flat - np.max(flat))
     probs = exp / exp.sum()
