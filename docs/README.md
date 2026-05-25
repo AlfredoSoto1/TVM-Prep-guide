@@ -19,12 +19,14 @@ bash .devcontainer/scripts/build-tvm.sh
 ```
 
 5. Open `notebooks/00_tvm_prep_guide.ipynb` and run it top to bottom.
-6. Open `notebooks/02_adding_models_and_raspberry_pi.ipynb` when adding your own models or preparing Raspberry Pi deployment.
+6. Open `notebooks/01_onnx_image_classifier.ipynb` for the ONNX image-classifier workflow.
+7. Open `notebooks/02_adding_models_and_raspberry_pi.ipynb` when adding your own models or preparing Raspberry Pi deployment.
 
 ## Repository Layout
 
 - `docs/`: setup and project-orientation notes.
 - `notebooks/00_tvm_prep_guide.ipynb`: the maintained guide for using TVM in this repository.
+- `notebooks/01_onnx_image_classifier.ipynb`: ONNX image classifier compile/export/run workflow.
 - `notebooks/02_adding_models_and_raspberry_pi.ipynb`: model onboarding, target compilation, and Raspberry Pi Python/C++ deployment notes.
 - `compilation/`: low-abstraction TVM model compilation script, target profiles, and runtime build script.
 - `examples/python/`: Python graph-executor runtime and image preprocessing helpers.

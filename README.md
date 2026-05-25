@@ -6,6 +6,7 @@ The repository is organized around:
 
 - `docs/`: project orientation, devcontainer setup, and manual dependency installation.
 - `notebooks/00_tvm_prep_guide.ipynb`: the main TVM preparation guide.
+- `notebooks/01_onnx_image_classifier.ipynb`: ONNX image classifier compile/export/run workflow.
 - `notebooks/02_adding_models_and_raspberry_pi.ipynb`: adding models and deploying to Raspberry Pi.
 - `compilation/`: flat TVM compilation scripts and target profiles.
 - `examples/`: Python and C++ runtime examples plus generated artifacts.
@@ -18,7 +19,8 @@ The repository is organized around:
 3. Select `TVM Prep Guide CPU` unless you specifically need the NVIDIA-based GPU image.
 4. Run the setup scripts from [docs/devcontainer.md](docs/devcontainer.md).
 5. Open [notebooks/00_tvm_prep_guide.ipynb](notebooks/00_tvm_prep_guide.ipynb) and run it top to bottom.
-6. Use [notebooks/02_adding_models_and_raspberry_pi.ipynb](notebooks/02_adding_models_and_raspberry_pi.ipynb) when you are ready to add your own models or deploy to Raspberry Pi.
+6. Use [notebooks/01_onnx_image_classifier.ipynb](notebooks/01_onnx_image_classifier.ipynb) for the ONNX image-classifier version of the same workflow.
+7. Use [notebooks/02_adding_models_and_raspberry_pi.ipynb](notebooks/02_adding_models_and_raspberry_pi.ipynb) when you are ready to add your own models or deploy to Raspberry Pi.
 
 The devcontainer builds Apache TVM from source at `v0.19.0`. This is slower than installing a pip wheel, but keeps the Python package, headers, and C++ runtime libraries aligned.
 
@@ -86,4 +88,4 @@ Use [notebooks/02_adding_models_and_raspberry_pi.ipynb](notebooks/02_adding_mode
 
 ## Legacy Material
 
-The old exploratory notebooks have been removed. `tvm_cpp/` remains only as older C++ reference material. New work should use `docs/`, the two maintained notebooks, `compilation/`, and `examples/`.
+The old exploratory notebooks have been removed. `tvm_cpp/` remains only as older C++ reference material. New work should use `docs/`, the maintained notebooks, `compilation/`, and `examples/`.

@@ -10,7 +10,7 @@ Usage:
     python compilation/compile.py --frontend pytorch --model resnet18 --target raspi4_aarch64
     python compilation/compile.py --frontend onnx \\
         --model-path model.onnx --input-name input0 --input-shape 1,3,224,224 \\
-        --target raspi4_aarch64
+        --labels labels.txt --target raspi4_aarch64
 
 Artifacts written to examples/artifacts/<model>/<target>/:
     model.so / model.wasm / model.tar  - compiled target library
@@ -205,6 +205,7 @@ def main():
     parser.add_argument("--frontend", choices=["pytorch", "tensorflow", "onnx", "tflite"])
     parser.add_argument("--model", default="resnet18", help="Named model for pytorch/tensorflow.")
     parser.add_argument("--model-path", default=None, help="Path to .onnx or .tflite file.")
+    parser.add_argument("--labels", default=None, help="Optional text file with one output label per line.")
     parser.add_argument("--input-name", default="input0")
     parser.add_argument("--input-shape", default=(1, 3, 224, 224), type=parse_shape)
     parser.add_argument("--input-dtype", default="float32")
@@ -239,6 +240,9 @@ def main():
             args.model_path, args.input_name, args.input_shape, args.input_dtype
         )
         model_name = Path(args.model_path).stem
+
+    if args.labels:
+        labels = Path(args.labels).read_text(encoding="utf-8").splitlines()
 
     artifact_dir = build_and_save(
         mod,
