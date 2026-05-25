@@ -47,7 +47,7 @@ examples/artifacts/<model>/<target>/
   labels.txt        # when labels are available
 ```
 
-C++ deployment also needs the target TVM runtime:
+C++ and Python deployment also need the target TVM runtime package:
 
 ```bash
 bash compilation/build_runtime.sh raspi4_aarch64
@@ -56,5 +56,12 @@ bash compilation/build_runtime.sh raspi4_aarch64
 That writes:
 
 ```text
-examples/artifacts/runtime/raspi4_aarch64/libtvm_runtime.so
+examples/artifacts/runtime/raspi4_aarch64/
+  libtvm_runtime.so
+  include/
+  python/
 ```
+
+Copy the whole `runtime/<target>/` directory to the target. The C++ example
+uses `include/` to build on the target, and the Python example uses `python/`
+to import TVM without requiring `/opt/tvm` on the target.

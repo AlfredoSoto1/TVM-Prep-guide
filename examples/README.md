@@ -7,9 +7,9 @@ This folder contains runtime code and generated artifacts. The compilation tools
 - `python/`: Python graph-executor runtime helpers (`run_model.py`, `tvm_prep/runtime.py`, `tvm_prep/preprocess.py`).
 - `cpp/`: C++ graph-executor runner for exported TVM artifacts.
 - `assets/`: small sample inputs and labels used by examples.
-- `artifacts/`: generated model outputs and cross-compiled runtime libraries.
+- `artifacts/`: generated model outputs and cross-compiled runtime packages.
   - `artifacts/<model>/<target>/` - compiled model artifacts.
-  - `artifacts/runtime/<target>/libtvm_runtime.so` - cross-compiled TVM runtime (see `compilation/build_runtime.sh`).
+  - `artifacts/runtime/<target>/` - deployable TVM runtime package (see `compilation/build_runtime.sh`).
 
 Generated model outputs belong in `examples/artifacts/` and should stay out of git except for `.gitkeep`.
 
@@ -29,8 +29,19 @@ python examples/python/run_model.py \
   --image examples/assets/cat.png
 ```
 
-For C++ or target-device deployment, also build the matching TVM runtime:
+For C++ or target-device deployment, also build the matching TVM runtime package:
 
 ```bash
 bash compilation/build_runtime.sh raspi4_aarch64
 ```
+
+That writes:
+
+```text
+examples/artifacts/runtime/raspi4_aarch64/
+  libtvm_runtime.so
+  include/
+  python/
+```
+
+Copy the whole `runtime/<target>/` directory to the target device. The C++ example uses `include/` to compile on the target. The Python example uses `python/` to import TVM without requiring target-side `/opt/tvm`.

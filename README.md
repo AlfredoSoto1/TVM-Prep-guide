@@ -53,8 +53,8 @@ The repository keeps the TVM path direct:
 2. Import the model into Relay with the appropriate TVM frontend.
 3. Choose a target architecture from `compilation/targets.py`.
 4. Compile and export graph-executor artifacts under `examples/artifacts/<model>/<target>/`.
-5. For C++ deployment, build the matching TVM runtime with `compilation/build_runtime.sh`; the output is `examples/artifacts/runtime/<target>/libtvm_runtime.so`.
-6. Copy the model artifact directory and runtime library to the target device, then run with either the Python or C++ example.
+5. For target-device deployment, build the matching TVM runtime package with `compilation/build_runtime.sh`; the output is `examples/artifacts/runtime/<target>/`.
+6. Copy the model artifact directory and runtime package directory to the target device, then run with either the Python or C++ example.
 
 Local Python validation example:
 

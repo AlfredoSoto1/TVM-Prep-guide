@@ -10,11 +10,14 @@
 #   bash compilation/build_runtime.sh raspi_armv7
 #   bash compilation/build_runtime.sh x86_64
 #
-# The compiled library is written to:
-#   examples/artifacts/runtime/<target>/libtvm_runtime.so
+# The runtime package is written to:
+#   examples/artifacts/runtime/<target>/
 #
-# Copy this file alongside the compiled model artifacts when deploying to the
-# target device or linking the C++ runner.
+# Copy this directory alongside the compiled model artifacts when deploying to
+# the target device. It contains:
+#   libtvm_runtime.so  - runtime shared library for the target
+#   include/           - headers needed to build examples/cpp on the target
+#   python/            - TVM Python package used by examples/python
 #
 # Prerequisites:
 #   - build-tvm.sh has already been run (TVM source is at TVM_HOME).
@@ -105,8 +108,24 @@ cmake --build "${BUILD_DIR}" --parallel "$(nproc)" --target tvm_runtime
 mkdir -p "${OUT_DIR}"
 cp "${BUILD_DIR}/libtvm_runtime.so" "${OUT_DIR}/libtvm_runtime.so"
 
+echo "Packaging C++ headers ..."
+rm -rf "${OUT_DIR}/include"
+mkdir -p "${OUT_DIR}/include"
+cp -R "${TVM_HOME}/include/tvm" "${OUT_DIR}/include/"
+cp -R "${TVM_HOME}/3rdparty/dlpack/include/dlpack" "${OUT_DIR}/include/"
+cp -R "${TVM_HOME}/3rdparty/dmlc-core/include/dmlc" "${OUT_DIR}/include/"
+
+echo "Packaging TVM Python runtime package ..."
+rm -rf "${OUT_DIR}/python"
+mkdir -p "${OUT_DIR}/python"
+cp -R "${TVM_HOME}/python/tvm" "${OUT_DIR}/python/"
+if [ -d "${TVM_HOME}/python/tvm.egg-info" ]; then
+  cp -R "${TVM_HOME}/python/tvm.egg-info" "${OUT_DIR}/python/"
+fi
+find "${OUT_DIR}/python" -type d -name "__pycache__" -prune -exec rm -rf {} +
+
 echo ""
-echo "Done. Runtime library written to:"
-echo "  ${OUT_DIR}/libtvm_runtime.so"
+echo "Done. Runtime package written to:"
+echo "  ${OUT_DIR}"
 echo ""
-echo "Copy this file to the target device alongside the compiled model artifacts."
+echo "Copy this directory to the target device alongside the compiled model artifacts."

@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 from tvm_prep.preprocess import load_imagenet_image
-from tvm_prep.runtime import load_metadata, run_graph_executor, topk
+from tvm_prep.runtime import configure_tvm_runtime, load_metadata, run_graph_executor, topk
 
 
 def parse_args() -> argparse.Namespace:
@@ -21,6 +21,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     artifact_dir = Path(args.artifact_dir)
+    configure_tvm_runtime(artifact_dir)
     metadata = load_metadata(artifact_dir)
     shape = tuple(metadata["input_shape"])
     layout = args.layout or ("NCHW" if len(shape) == 4 and shape[1] == 3 else "NHWC")
