@@ -33,14 +33,23 @@ case "${TARGET}" in
   x86_64|native)
     CC="gcc"
     CXX="g++"
+    CMAKE_SYSTEM_ARGS=()
     ;;
   raspi4_aarch64)
     CC="aarch64-linux-gnu-gcc"
     CXX="aarch64-linux-gnu-g++"
+    CMAKE_SYSTEM_ARGS=(
+      -DCMAKE_SYSTEM_NAME=Linux
+      -DCMAKE_SYSTEM_PROCESSOR=aarch64
+    )
     ;;
   raspi_armv7)
     CC="arm-linux-gnueabihf-gcc"
     CXX="arm-linux-gnueabihf-g++"
+    CMAKE_SYSTEM_ARGS=(
+      -DCMAKE_SYSTEM_NAME=Linux
+      -DCMAKE_SYSTEM_PROCESSOR=arm
+    )
     ;;
   *)
     echo "Unknown target: ${TARGET}" >&2
@@ -71,18 +80,26 @@ echo "  Build dir  : ${BUILD_DIR}"
 echo "  Output     : ${OUT_DIR}/libtvm_runtime.so"
 
 mkdir -p "${BUILD_DIR}"
+rm -f "${BUILD_DIR}/CMakeCache.txt"
+rm -rf "${BUILD_DIR}/CMakeFiles"
 cp "${TVM_HOME}/cmake/config.cmake" "${BUILD_DIR}/config.cmake"
 
 cat >> "${BUILD_DIR}/config.cmake" <<EOF
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_C_COMPILER ${CC})
-set(CMAKE_CXX_COMPILER ${CXX})
 set(USE_LLVM OFF)
+set(USE_RPC OFF)
+set(USE_CPP_RPC OFF)
 set(USE_GRAPH_EXECUTOR ON)
+set(USE_AOT_EXECUTOR ON)
 set(USE_PROFILER OFF)
+set(USE_LIBBACKTRACE OFF)
+set(BACKTRACE_ON_SEGFAULT OFF)
 EOF
 
-cmake -S "${TVM_HOME}" -B "${BUILD_DIR}" -G Ninja
+cmake -S "${TVM_HOME}" -B "${BUILD_DIR}" -G Ninja \
+  -DCMAKE_C_COMPILER="${CC}" \
+  -DCMAKE_CXX_COMPILER="${CXX}" \
+  "${CMAKE_SYSTEM_ARGS[@]}"
 cmake --build "${BUILD_DIR}" --parallel "$(nproc)" --target tvm_runtime
 
 mkdir -p "${OUT_DIR}"
