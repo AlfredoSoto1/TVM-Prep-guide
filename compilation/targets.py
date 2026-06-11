@@ -48,4 +48,10 @@ TARGETS = {
         "ext":    "tar",
         # C source export, useful as a bridge to microTVM-style bare-metal deployment.
     },
+    "raspi5_aarch64": {
+    "target": "llvm -mtriple=aarch64-linux-gnu -mcpu=cortex-a76",
+    "host":   "llvm -mtriple=aarch64-linux-gnu",
+    "cc":     "aarch64-linux-gnu-gcc",
+    "ext":    "so",
+    },
 }

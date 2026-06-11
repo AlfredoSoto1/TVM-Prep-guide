@@ -38,7 +38,7 @@ case "${TARGET}" in
     CXX="g++"
     CMAKE_SYSTEM_ARGS=()
     ;;
-  raspi4_aarch64)
+  raspi4_aarch64|raspi5_aarch64)
     CC="aarch64-linux-gnu-gcc"
     CXX="aarch64-linux-gnu-g++"
     CMAKE_SYSTEM_ARGS=(
